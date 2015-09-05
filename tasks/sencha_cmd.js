@@ -25,7 +25,8 @@ module.exports = function(grunt) {
           task = me.data.task || 'build',
           sencha = options.pathToSencha || 'sencha',
           cpOptions = {},
-          cmd = sencha + ' ' + scope + ' ' + task;
+          cmd = sencha + ' ' + scope + ' ' + task,
+          done = me.async();
 
       if (scope !== 'package' && options.applicationDirectory) {
           cpOptions.cwd = options.applicationDirectory;
@@ -49,6 +50,14 @@ module.exports = function(grunt) {
       grunt.log.writeln('Ready to make a call:');
       grunt.log.writeln('Command = ', cmd);
       grunt.log.writeln('Options = ', JSON.stringify(cpOptions));
+
+      cp.exec(cmd, cpOptions,
+          function (error, stdout, stderr) {
+              console.log('stdout: ' + stdout);
+              console.log('stderr: ' + stderr);
+
+              done(error === null);
+          });
   });
 
 };
