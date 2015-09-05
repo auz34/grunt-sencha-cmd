@@ -31,7 +31,7 @@ module.exports = function(grunt) {
       if (scope !== 'package' && options.applicationDirectory) {
           cpOptions.cwd = options.applicationDirectory;
       } else if (scope === 'package') {
-          cpOptions.cwd = path.join(options.applicationDirectory || __dirname, 'packages', this.data.packageName);
+          cpOptions.cwd = path.join(options.applicationDirectory || process.cwd(), 'packages', this.data.packageName);
       }
 
       if (options.log && options.log.dest) {
