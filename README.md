@@ -1,6 +1,8 @@
 # grunt-sencha-cmd
 
-> Custom plugin created to automate single sencha cmd commands our team executes days in and days out during development time
+> Custom plugin created to automate single sencha cmd commands our team executes days in and days out 
+> during development time. Under the hood it is a very simple wrapper which calls sencha cmd with parameters 
+> corresponding to the options of your grunt task
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
