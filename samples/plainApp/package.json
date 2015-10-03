@@ -1,0 +1,15 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "This folder is primarily a container for the top-level pieces of the application. While you can remove some files and folders that this application does not use, be sure to read below before deciding what can be deleted and what needs to be kept in source control.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-sencha-cmd": "^0.1.1"
+  }
+}
