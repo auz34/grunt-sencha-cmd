@@ -23,9 +23,10 @@ module.exports = function(grunt) {
           options = me.options(),
           scope = me.data.scope || 'app',
           task = me.data.task || 'build',
+          env = (scope === 'app' && me.data.environment) ? me.data.environment : '',
           sencha = options.pathToSencha || 'sencha',
           cpOptions = {},
-          cmd = sencha + ' ' + scope + ' ' + task,
+          cmd = sencha + ' ' + scope + ' ' + task + ' ' + env,
           done = me.async();
 
       if (scope !== 'package' && options.applicationDirectory) {

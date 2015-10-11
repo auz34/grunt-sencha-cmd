@@ -38,6 +38,9 @@ module.exports = function(grunt) {
       },
       minimal_configuration: { // should generate sencha app build
       },
+      env: {
+        environment: 'testing'
+      },
       myPackage: {
           scope: 'package',
           packageName: 'myPackage'
