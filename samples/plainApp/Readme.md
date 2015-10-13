@@ -4,7 +4,8 @@ If you have simple application and all interaction with Sencha command you need 
 you can easily achieve this by using in current plugin without any configuration
 ```js
 grunt.initConfig({
-  sencha_cmd: {  
+  sencha_cmd: {
+    app: {}
   }
 });
 ```

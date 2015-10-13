@@ -4,9 +4,11 @@ In this case corresponding grunt task configuration would look like following on
 
 ```js
 grunt.initConfig({
-  sencha_cmd: {  
-    scope: 'package',
-    packageName: 'myPackage'
+  sencha_cmd: {
+    myPackage: {
+      scope: 'package',
+      packageName: 'myPackage'
+    }    
   }
 });
 ```
