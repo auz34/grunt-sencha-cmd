@@ -10,7 +10,8 @@
 
 var cp = require('child_process'),
     //fs = require('file_system'),
-    path = require('path');
+    path = require('path'),
+    fs = require('fs');
 
 module.exports = function(grunt) {
 
@@ -27,13 +28,26 @@ module.exports = function(grunt) {
           sencha = options.pathToSencha || 'sencha',
           cpOptions = {},
           cmd = sencha + ' ' + scope + ' ' + task + ' ' + env,
-          done = me.async();
+          done = me.async(),
+          cwd = process.cwd();
 
-      if (scope !== 'package' && options.applicationDirectory) {
-          cpOptions.cwd = options.applicationDirectory;
-      } else if (scope === 'package') {
-          cpOptions.cwd = path.join(options.applicationDirectory || process.cwd(), 'packages', this.data.packageName);
+      var dirExists = function(dirPath) {
+          try {
+              var stats = fs.statSync(dirPath);
+              return stats.isDirectory();
+          } catch(err) {
+              return false;
+          }
+      };
+
+      if (options.applicationDirectory) {
+          cwd = dirExists(options.applicationDirectory) ?
+              /*absolute*/options.applicationDirectory :
+              /*relative*/path.join(cwd, options.applicationDirectory);
       }
+
+      cpOptions.cwd = (scope === 'package') ?
+          path.join(cwd, 'packages', this.data.packageName) : cwd;
 
       if (options.log && options.log.dest) {
           var logFileName = path.join(options.log.dest, this.nameArgs.replace(':', '.'));
