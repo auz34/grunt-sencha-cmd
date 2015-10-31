@@ -1,7 +1,7 @@
 {
   "name": "grunt-sencha-cmd",
   "description": "Custom plugin created to automate single sencha cmd commands our team executes days in and days out during development time",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "homepage": "https://github.com/auz34/grunt-sencha-cmd",
   "author": {
     "name": "Andrew Zavgorodniy",
