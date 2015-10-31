@@ -24,6 +24,7 @@ module.exports = function(grunt) {
           options = me.options(),
           scope = me.data.scope || 'app',
           task = me.data.task || 'build',
+          appFolder = me.data.directory || options.directory,
           env = (scope === 'app' && me.data.environment) ? me.data.environment : '',
           sencha = options.pathToSencha || 'sencha',
           cpOptions = {},
@@ -40,10 +41,10 @@ module.exports = function(grunt) {
           }
       };
 
-      if (options.applicationDirectory) {
-          cwd = dirExists(options.applicationDirectory) ?
-              /*absolute*/options.applicationDirectory :
-              /*relative*/path.join(cwd, options.applicationDirectory);
+      if (appFolder) {
+          cwd = dirExists(appFolder) ?
+              /*absolute*/appFolder :
+              /*relative*/path.join(cwd, appFolder);
       }
 
       cpOptions.cwd = (scope === 'package') ?
