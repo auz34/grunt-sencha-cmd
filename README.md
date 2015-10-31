@@ -44,3 +44,5 @@ grunt.initConfig({
   }
 });
 ```
+
+#### sencha package build
