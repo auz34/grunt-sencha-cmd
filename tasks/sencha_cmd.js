@@ -28,9 +28,17 @@ module.exports = function(grunt) {
           env = (scope === 'app' && me.data.environment) ? me.data.environment : '',
           sencha = options.pathToSencha || 'sencha',
           cpOptions = {},
-          cmd = sencha + ' ' + scope + ' ' + task + ' ' + env,
+          cmds = [],
           done = me.async(),
           cwd = process.cwd();
+
+      if (Array.isArray(env)) {
+          env.forEach(function(env) {
+              cmds.push(sencha + ' ' + scope + ' ' + task + ' ' + env);
+          });
+      }  else {
+          cmds.push(sencha + ' ' + scope + ' ' + task + ' ' + env);
+      }
 
       var dirExists = function(dirPath) {
           try {
@@ -63,17 +71,35 @@ module.exports = function(grunt) {
           }
       }
 
-      grunt.log.writeln('Ready to make a call:');
-      grunt.log.writeln('Command = ', cmd);
-      grunt.log.writeln('Options = ', JSON.stringify(cpOptions));
+      grunt.log.writeln(cmds.length + ' commands to be executed');
 
-      cp.exec(cmd, cpOptions,
-          function (error, stdout, stderr) {
-              console.log('stdout: ' + stdout);
-              console.log('stderr: ' + stderr);
+      var completed = 0,
+          success,
+          runCmd = function(callback) {
+              var cmd = cmds[completed];
+              grunt.log.writeln('Ready to make a call:');
+              grunt.log.writeln('Command = ', cmd);
+              grunt.log.writeln('Options = ', JSON.stringify(cpOptions));
 
-              done(error === null);
-          });
+              cp.exec(cmd, cpOptions,
+                  function (error, stdout, stderr) {
+                      console.log('stdout: ' + stdout);
+                      console.log('stderr: ' + stderr);
+
+                      success = success & (error === null);
+                      completed++;
+                      callback();
+                  });
+          },
+          callback = function() {
+              if (completed === cmd.length) {
+                  done(success);
+              } else {
+                  runCmd(callback);
+              }
+          };
+
+      runCmd(callback);
   });
 
 };
