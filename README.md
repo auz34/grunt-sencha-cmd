@@ -45,4 +45,13 @@ grunt.initConfig({
 });
 ```
 
+if more than one environment should be built by one task environment should be array
+```js
+grunt.initConfig({
+  sencha_cmd: {
+      environment: ['testing', 'production']
+  }
+});
+```
+
 #### sencha package build
