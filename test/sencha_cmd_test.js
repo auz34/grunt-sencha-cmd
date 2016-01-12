@@ -43,10 +43,10 @@ exports.sencha_cmd = {
   minimal_configuration: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.readJSON('test/actual/sencha_cmd.minimal_configuration');
+    var actual = grunt.file.readJSON('test/actual/sencha_cmd.minimal_configuration0');
     test.deepEqual(actual, {
       command: 'sencha app build',
-      options: {}
+      options: { cwd: process.cwd() }
     });
 
 
@@ -56,9 +56,27 @@ exports.sencha_cmd = {
   myPackage: function(test) {
     test.expect(2);
 
-    var actual = grunt.file.readJSON('test/actual/sencha_cmd.myPackage');
+    var actual = grunt.file.readJSON('test/actual/sencha_cmd.myPackage0');
     test.equal(actual.command, 'sencha package build');
     test.ok(endsWith(actual.options.cwd, 'packages\\myPackage'));
+
+    test.done();
+  },
+
+  multipleEnvs: function(test) {
+    test.expect(2);
+    var actual0 = grunt.file.readJSON('test/actual/sencha_cmd.multipleEnvs0'),
+        actual1 = grunt.file.readJSON('test/actual/sencha_cmd.multipleEnvs1');
+
+    test.deepEqual(actual0, {
+      command: 'sencha app build development',
+      options: { cwd: process.cwd() }
+    });
+
+    test.deepEqual(actual1, {
+      command: 'sencha app build production',
+      options: { cwd: process.cwd() }
+    });
 
     test.done();
   }

@@ -34,10 +34,10 @@ module.exports = function(grunt) {
 
       if (Array.isArray(env)) {
           env.forEach(function(env) {
-              cmds.push(sencha + ' ' + scope + ' ' + task + ' ' + env);
+              cmds.push((sencha + ' ' + scope + ' ' + task + ' ' + env).trim());
           });
       }  else {
-          cmds.push(sencha + ' ' + scope + ' ' + task + ' ' + env);
+          cmds.push((sencha + ' ' + scope + ' ' + task + ' ' + env).trim());
       }
 
       var dirExists = function(dirPath) {
@@ -58,25 +58,28 @@ module.exports = function(grunt) {
       cpOptions.cwd = (scope === 'package') ?
           path.join(cwd, 'packages', this.data.packageName) : cwd;
 
-      if (options.log && options.log.dest) {
-          var logFileName = path.join(options.log.dest, this.nameArgs.replace(':', '.'));
-          grunt.log.writeln('Log file name:', logFileName);
-          grunt.file.write(logFileName, JSON.stringify({
-              command: cmd,
-              options: cpOptions
-          }));
-
-          if (options.log.preventRealExecution) {
-              return;
-          }
-      }
-
       grunt.log.writeln(cmds.length + ' commands to be executed');
 
       var completed = 0,
           success,
           runCmd = function(callback) {
               var cmd = cmds[completed];
+              if (options.log && options.log.dest) {
+                  var logFileName = path.join(options.log.dest, me.nameArgs.replace(':', '.'));
+                  logFileName += completed;
+                  grunt.log.writeln('Log file name:', logFileName);
+                  grunt.file.write(logFileName, JSON.stringify({
+                      command: cmd,
+                      options: cpOptions
+                  }));
+
+                  if (options.log.preventRealExecution) {
+                      completed++;
+                      callback();
+                      return;
+                  }
+              }
+
               grunt.log.writeln('Ready to make a call:');
               grunt.log.writeln('Command = ', cmd);
               grunt.log.writeln('Options = ', JSON.stringify(cpOptions));
@@ -92,7 +95,7 @@ module.exports = function(grunt) {
                   });
           },
           callback = function() {
-              if (completed === cmd.length) {
+              if (completed === cmds.length) {
                   done(success);
               } else {
                   runCmd(callback);

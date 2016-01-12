@@ -44,6 +44,9 @@ module.exports = function(grunt) {
       myPackage: {
           scope: 'package',
           packageName: 'myPackage'
+      },
+      multipleEnvs: {
+        environment: ['development', 'production']
       }
     },
 
